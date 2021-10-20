@@ -1,0 +1,12 @@
+/
+/login
+/register
+/signup
+/accounts
+/users
+/0
+/1
+/2
+/blogs
+/posts
+/auth
