@@ -5,4 +5,4 @@ A project by a script-kiddie to understand the fundamentals.
 :smiley: Thanks
 
 
-__ compiled to loww level using Pyinstaller
+_compiled to loww level using Pyinstaller [Pyinstaller](https://github.com/pyinstaller/pyinstaller)_
