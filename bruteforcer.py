@@ -1,30 +1,47 @@
 import sys
 import requests
-from requests.models import requote_uri
 
 version = "1.0.0"
 
 
-def run(arguments):
+def run(url, wordlist, codes):
+    if(url.split(":")[0] not in ("https", "http")):
+        url = "http://" + url
+    req = requests.get(url)
+    print("{}/  - {}".format(url, req.status_code))
+    num_lines = sum(1 for line in open(wordlist))
+    with open(wordlist, "r") as file:
+        c = 0
+        while(True):
+            sys.stdout.writelines("\r")
+
+            line = file.readline().strip()
+            if(line == ""):
+                break
+            req = requests.get(f"{url}/{line}",
+                               allow_redirects=False)
+            if(codes == [] or req.status_code in codes):
+                print("{}/{} - {}".format(url, line, req.status_code), flush=True)
+            c += 1
+            sys.stdout.writelines(
+                "Directories Tried : {} of {} ".format(c, num_lines))
+            sys.stdout.flush()
+
+
+def loader(arguments):
 
     try:
         # add http protocol if not included  in parameter
         req = None
         url = str(arguments["-u"])
-        w = str(arguments["-w"])
-        if(url.split(":")[0] not in ("https", "http")):
-            url = "https://" + url
-        req = requests.get(url)
-        print("{}  - {}".format(url, req.status_code))
-        with open(w, "r") as file:
-            while(True):
-                line = file.readline().strip()
-                if(line == ""):
-                    break
-                req = requests.get(f"{url}{line}",
-                                   allow_redirects=False)
-                print(f"{url}{line} - {req.status_code}")
-    except IndexError:
+        wordlist = str(arguments["-w"])
+        codes = []
+        try:
+            codes = list(map(int, str(arguments["-s"]).split(",")))
+        except:
+            pass
+        run(url, wordlist, codes)
+    except:
         print("The host is down")
 
 
@@ -35,13 +52,13 @@ def program():
             # just in case a -v or -h escape from the __main__
             print("Great you found a bug")
             break
-        elif(sys.argv[i] in ("-u", "-w", "-p", "-t")):
+        elif(sys.argv[i] in ("-u", "-w", "-p", "-t", "-s")):
             # above loop prevent from entering useless commands
             try:
                 arguments[sys.argv[i]] = sys.argv[i+1]
             except IndexError:
                 print("check your syntax once again ( IndexError )")
-    run(arguments)
+    loader(arguments)
 
 
 if __name__ == "__main__":

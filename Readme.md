@@ -1,8 +1,8 @@
-# Bruteforcer - @1.0.0 - Beta
+# Bruteforcer - @1.1.0 - Beta
 
-A project by a script-kiddie to understand the fundamentals.
+A project by a script-kiddie.
 
 :smiley: Thanks
 
 
-_compiled to l0w-l3v3l using Pyinstaller [Pyinstaller](https://github.com/pyinstaller/pyinstaller)_
+_compiled using Pyinstaller [Pyinstaller](https://github.com/pyinstaller/pyinstaller)_
